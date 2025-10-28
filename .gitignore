@@ -65,7 +65,6 @@ __pycache__/
 *.lock
 
 # === ARCHIVOS DE CAPTURAS O EVIDENCIAS (puedes subirlos a docs/ manualmente) ===
-*.png
 *.jpg
 *.jpeg
 *.gif
