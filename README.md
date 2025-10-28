@@ -8,14 +8,14 @@ La idea es que puedas verlo funcionando rápido, sin enredos.
 
 ---
 
-## ✅ ¿Qué vas a construir?
+## ¿Qué vas a construir?
 Una página web simple que se despliega en la VM **web** y una segunda página (`info.php`) que:
 1) comprueba que PHP funciona y  
 2) **lee datos** de una tabla en **PostgreSQL** que vive en la VM **db**.
 
 ---
 
-## 🧰 Requisitos
+## Requisitos
 - **Vagrant** instalado.
 - **QEMU/KVM + libvirt** (en NixOS u otra distro Linux).
 - **Plugin de Vagrant para libvirt**:
@@ -28,7 +28,7 @@ Una página web simple que se despliega en la VM **web** y una segunda página (
 
 ---
 
-## 🚀 Pasos rápidos
+## Pasos rápidos
 1. Clona tu fork del repositorio y entra a la carpeta.
 2. Asegúrate de tener la carpeta `www/` con `index.html` e `info.php` (ya vienen listos).
 3. Levanta las máquinas (recomendado en Linux/NixOS):
@@ -44,7 +44,7 @@ Si ves una tabla con dos filas (Ada Lovelace y Alan Turing), ¡todo quedó OK! �
 
 ---
 
-## 📁 Estructura básica del proyecto
+## Estructura básica del proyecto
 ```
 Vagrantfile
 provision-web.sh
@@ -59,7 +59,7 @@ www/
 
 ---
 
-## 🧪 Reto (lo que te piden)
+## Reto (lo que te piden)
 1. **Provisiona la base de datos**: ya está automatizado en `provision-db.sh` (crea BD, tabla y datos).
 2. **Conecta PHP a PostgreSQL**: ya lo hace `www/info.php` (lee y muestra datos).
 3. **Cambia tu página**: edita `www/index.html` con tu nombre o estilo.
@@ -71,7 +71,7 @@ Sugerencia de capturas:
 
 ---
 
-## 🔧 Comandos útiles
+## Comandos útiles
 ```bash
 vagrant status          # ver estado
 vagrant ssh web         # entrar a la VM web
@@ -84,7 +84,7 @@ vagrant destroy -f      # destruir todo
 
 ---
 
-## 🩺 Problemas comunes (rápidas soluciones)
+## Problemas comunes (rápidas soluciones)
 - **No abre la web**: espera 1–2 minutos luego de `vagrant up` y recarga.  
 - **No aparece la tabla**: reinicia la web o reprovisiona (`vagrant provision web`).  
 - **Cambié las IPs**: revisa que `info.php` apunte a la IP real de la DB.  

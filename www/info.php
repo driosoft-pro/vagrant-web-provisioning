@@ -1,54 +1,27 @@
 <?php
-// Configuración de conexión a PostgreSQL
-$cfg = [
-  'host' => '192.168.56.11',
-  'port' => '5432',
-  'dbname' => 'appdb',
-  'user' => 'appuser',
-  'password' => 'appsecret',
-];
+echo "<h1>Prueba PHP + PostgreSQL</h1>";
 
-// Mostrar información básica y enlace a phpinfo()
-echo "<h1>PHP + PostgreSQL demo</h1>";
-echo "<p><a href='?phpinfo=1'>Ver phpinfo()</a></p>";
+$dbhost = "192.168.56.11";
+$dbname = "appdb";
+$dbuser = "appuser";
+$dbpass = "appsecret";
 
-// Mostrar phpinfo() si se solicita
-if (isset($_GET['phpinfo'])) {
-  phpinfo();
-  exit;
-}
+$conn = pg_connect("host=$dbhost dbname=$dbname user=$dbuser password=$dbpass");
 
-// Conectar a PostgreSQL
-$conn_str = sprintf(
-  "host=%s port=%s dbname=%s user=%s password=%s",
-  $cfg['host'], $cfg['port'], $cfg['dbname'], $cfg['user'], $cfg['password']
-);
-
-// Intentar la conexión
-$conn = @pg_connect($conn_str);
-
-// Verificar la conexión
 if (!$conn) {
-  echo "<p style='color:red'>No se pudo conectar a PostgreSQL en {$cfg['host']}.</p>";
+  echo "<p><strong>Error:</strong> No se pudo conectar a PostgreSQL.</p>";
   exit;
 }
 
-// Ejecutar consulta para obtener datos de la tabla 'students'
-$res = pg_query($conn, "SELECT id, name, email FROM students ORDER BY id ASC");
-if (!$res) {
-  echo "<p style='color:red'>La consulta falló.</p>";
-  exit;
-}
+echo "<p>Conexión exitosa a PostgreSQL.</p>";
 
-// Mostrar los resultados en una tabla HTML
-echo "<table border='1' cellpadding='6'><tr><th>ID</th><th>Nombre</th><th>Email</th></tr>";
-while ($row = pg_fetch_assoc($res)) {
-  echo "<tr><td>{$row['id']}</td><td>{$row['name']}</td><td>{$row['email']}</td></tr>";
+$result = pg_query("SELECT id, name, email FROM students;");
+echo "<h3>Estudiantes registrados:</h3>";
+echo "<ul>";
+while ($row = pg_fetch_assoc($result)) {
+  echo "<li>{$row['id']}: {$row['name']} ({$row['email']})</li>";
 }
-// Cerrar la tabla HTML
-echo "</table>";
+echo "</ul>";
 
-// Liberar resultados y cerrar la conexión
-pg_free_result($res);
 pg_close($conn);
 ?>

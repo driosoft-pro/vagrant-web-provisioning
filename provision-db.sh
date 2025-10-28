@@ -1,34 +1,47 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+# ===============================================================
+# PROVISION-DB.SH
+# Autor: Deyton Riasco Ortiz
+# Descripción: Instala y configura PostgreSQL, crea base de datos y datos de ejemplo
+# ===============================================================
 set -euo pipefail
 
-# Variables
+# ==== Colores ====
+GREEN="\033[1;32m"
+YELLOW="\033[1;33m"
+RED="\033[1;31m"
+RESET="\033[0m"
+
+# ==== Fix de DNS ====
+echo -e "${YELLOW}[DB] Fix DNS...${RESET}"
+echo 'nameserver 8.8.8.8' | sudo tee /etc/resolv.conf >/dev/null
+
+# ==== Variables ====
 DB_NAME="appdb"
 DB_USER="appuser"
 DB_PASS="appsecret"
 NETWORK_CIDR="192.168.56.0/24"
 
-# Actualizar e instalar paquetes
-sudo apt-get update -y
-sudo apt-get install -y postgresql
+# ==== Instalar PostgreSQL ====
+echo -e "${GREEN}[DB] Instalando PostgreSQL...${RESET}"
+sudo apt-get update -y || { echo -e "${RED}[DB] Error al actualizar paquetes.${RESET}"; exit 1; }
+sudo apt-get install -y postgresql postgresql-contrib
 
-# Habilitar y reiniciar PostgreSQL
-sudo systemctl enable postgresql
-sudo systemctl restart postgresql
-
-# Configuaración de red y conexiones de red
+# ==== Configurar PostgreSQL ====
 PG_CONF="/etc/postgresql/$(ls /etc/postgresql)/main/postgresql.conf"
 PG_HBA="/etc/postgresql/$(ls /etc/postgresql)/main/pg_hba.conf"
 
-# Configuración de PostgreSQL para escuchar en todas las interfaces y permitir conexiones desde la red privada
+echo -e "${GREEN}[DB] Configurando PostgreSQL...${RESET}"
 sudo sed -i "s/^#\?listen_addresses.*/listen_addresses = '*'/" "$PG_CONF"
 if ! grep -q "$NETWORK_CIDR" "$PG_HBA"; then
   echo "host    all             all             $NETWORK_CIDR            md5" | sudo tee -a "$PG_HBA" >/dev/null
 fi
 
-# Reiniciar PostgreSQL para aplicar cambios
+sudo systemctl enable postgresql
 sudo systemctl restart postgresql
 
-# Crear usuario y base de datos
+# ==== Crear usuario y base de datos ====
+echo -e "${GREEN}[DB] Creando usuario y base de datos...${RESET}"
 sudo -u postgres psql -v ON_ERROR_STOP=1 <<SQL
 DO
 \$\$
@@ -51,8 +64,12 @@ CREATE TABLE IF NOT EXISTS students (
 
 INSERT INTO students (name, email) VALUES
   ('Ada Lovelace', 'ada@example.com'),
-  ('Alan Turing', 'alan@example.com')
+  ('Alan Turing', 'alan@example.com'),
+  ('Grace Hopper', 'grace@example.com'),
+  ('Linus Torvalds', 'linus@example.com'),
+  ('Katherine Johnson', 'katherine@example.com')
 ON CONFLICT DO NOTHING;
 SQL
 
-echo 'OK: DB provision complete.'
+# ==== Fin ====
+echo -e "${GREEN}[DB] Base de datos creada y lista para conexión.${RESET}"
