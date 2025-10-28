@@ -1,33 +1,55 @@
+# ===============================================================
+# VAGRANTFILE - Configuración de entorno multi-máquina
+# Autor: Deyton Riasco Ortiz
+# Descripción: Define 2 VMs (web y db) con red privada
+# ===============================================================
+
 Vagrant.configure("2") do |config|
-  # Usaremos libvirt como provider único
+  # Deshabilitar actualización automática de box
   config.vm.box_check_update = false
   
-  # Máquina WEB (Apache + PHP) 
+  # ==========================================
+  # MÁQUINA WEB (Apache + PHP)
+  # ==========================================
   config.vm.define "web" do |web|
+    # Box base Ubuntu 20.04
     web.vm.box = "generic/ubuntu2004"
     web.vm.hostname = "web"
-    web.vm.network "private_network", ip: "192.168.56.10"
-    # Sincronizar 'www' y dejarla lista para copiar a /var/www/html
+    
+    # Red privada con IP estática
+    web.vm.network "private_network", ip: "192.168.122.10"
+    
+    # Sincronizar carpeta www con rsync
     web.vm.synced_folder "./www", "/vagrant/www", type: "rsync", create: true
-    # Provisionar la máquina web
+    
+    # Script de aprovisionamiento
     web.vm.provision "shell", path: "provision-web.sh"
-    # Recursos libvirt
+    
+    # Configuración de recursos para libvirt
     web.vm.provider :libvirt do |v|
       v.cpus = 1
       v.memory = 1024
     end
   end
 
-  # Máquina DB (reto) (PostgreSQL)
+  # ==========================================
+  # MÁQUINA DB (PostgreSQL) (reto)
+  # ==========================================
   config.vm.define "db" do |db|
+    # Box base Ubuntu 20.04
     db.vm.box = "generic/ubuntu2004"
     db.vm.hostname = "db"
-    db.vm.network "private_network", ip: "192.168.56.11"
-    # Sincroniza el directorio actual (donde está el Vagrantfile)
+    
+    # Red privada con IP estática
+    db.vm.network "private_network", ip: "192.168.122.11"
+    
+    # Sincronizar directorio raíz (excluyendo .git y www)
     db.vm.synced_folder ".", "/vagrant", type: "rsync", rsync__exclude: [".git/", "www/"]
-    # Provisionar la máquina db
+    
+    # Script de aprovisionamiento
     db.vm.provision "shell", path: "provision-db.sh"
-    # Recursos libvirt
+    
+    # Configuración de recursos para libvirt
     db.vm.provider :libvirt do |v|
       v.cpus = 1
       v.memory = 1024

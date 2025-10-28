@@ -1,16 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <title>Vagrant Web - Bienvenido</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>body{font-family:system-ui,Arial,sans-serif;margin:2rem;max-width:60ch}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vagrant Web - Inicio</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>¡Bienvenido, Deyton Riasco Ortiz!</h1>
-  <p>Este sitio se despliega automáticamente en <strong>Apache</strong> dentro de la VM <code>web</code>.</p>
-  <ul>
-    <li><a href="info.php">Probar PHP y ver datos de PostgreSQL</a></li>
-  </ul>
+  <!-- Contenedor principal -->
+  <div class="container">
+    <!-- Encabezado de la aplicación -->
+    <header class="header">
+      <h1>Vagrant Multi-VM</h1>
+      <p class="subtitle">Entorno Apache + PHP + PostgreSQL</p>
+    </header>
+
+    <!-- Sección de bienvenida -->
+    <section class="welcome-section">
+      <h2>¡Bienvenido, Deyton Riasco Ortiz!</h2>
+      <p>
+        Este sitio se despliega automáticamente en <strong>Apache</strong> dentro de la VM <code>web</code>.
+        La configuración incluye PHP y conexión a PostgreSQL en la VM <code>db</code>.
+      </p>
+    </section>
+
+    <!-- Tarjetas de navegación -->
+    <section class="card-grid">
+      <!-- Tarjeta: Información de PHP -->
+      <div class="card">
+        <div class="card-icon">PHP</div>
+        <h3>Información PHP</h3>
+        <p>Consulta la versión de PHP instalada y módulos disponibles</p>
+        <a href="info.php" class="btn">Ver info PHP</a>
+      </div>
+
+      <!-- Tarjeta: Base de datos -->
+      <div class="card">
+        <div class="card-icon">DB</div>
+        <h3>Base de Datos</h3>
+        <p>Conecta y consulta estudiantes desde PostgreSQL</p>
+        <a href="db.php" class="btn">Ver estudiantes</a>
+      </div>
+    </section>
+
+    <!-- Información del sistema -->
+    <section class="info-section">
+      <h3>Información del Sistema</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <strong>Web Server:</strong>
+          <span>192.168.122.10</span>
+        </div>
+        <div class="info-item">
+          <strong>Database Server:</strong>
+          <span>192.168.122.11</span>
+        </div>
+        <div class="info-item">
+          <strong>Stack:</strong>
+          <span>Apache + PHP + PostgreSQL</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer class="footer">
+      <p>Desarrollado por Deyton Riasco Ortiz | Vagrant + Libvirt</p>
+    </footer>
+  </div>
 </body>
 </html>
