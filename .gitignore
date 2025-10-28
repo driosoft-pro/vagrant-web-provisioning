@@ -1,0 +1,98 @@
+# ======================================================
+#  .gitignore - Proyecto Vagrant Web Provisioning
+#  Autor: Deyton Riasco Ortiz
+#  Descripción: Evita subir archivos generados o locales
+# ======================================================
+
+# === VAGRANT ===
+.vagrant/
+*.log
+*.box
+*.img
+*.qcow2
+*.vdi
+*.vmdk
+*.vagrantfile.local
+Vagrantfile.lock
+
+# === SHELL OUTPUT / LOGS ===
+*.out
+*.err
+*.bak
+*.tmp
+*.swp
+*.swo
+nohup.out
+
+# === ARCHIVOS DE SISTEMA ===
+.DS_Store
+Thumbs.db
+desktop.ini
+Icon?
+ehthumbs.db
+
+# === BACKUPS Y ARCHIVOS TEMPORALES ===
+*~
+*.old
+*.orig
+*.save
+*.rej
+
+# === DIRECTORIOS TEMPORALES / CACHÉ ===
+.cache/
+logs/
+tmp/
+temp/
+__pycache__/
+
+# === ARCHIVOS DE CONFIGURACIÓN PERSONALES ===
+.env
+.envrc
+*.secret
+*.local
+
+# === ARCHIVOS DE EDITOR ===
+# VSCode
+.vscode/
+# JetBrains (PhpStorm, PyCharm, etc.)
+.idea/
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# === ARCHIVOS DE SISTEMA LINUX ===
+*.pid
+*.sock
+*.lock
+
+# === ARCHIVOS DE CAPTURAS O EVIDENCIAS (puedes subirlos a docs/ manualmente) ===
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.zip
+*.tar
+*.gz
+
+# === ARCHIVOS DE DOCUMENTACIÓN GENERADOS ===
+*.pdf
+*.docx
+*.odt
+*.pptx
+
+# === CARPETAS PERSONALES O AUXILIARES ===
+backup/
+test/
+sandbox/
+private/
+notes/
+
+# === NIXOS O DESARROLLO LOCAL ===
+result
+result-*
+.nix-result
+nix-shell.log
+flake.lock.old
+.envrc
+.direnv/
